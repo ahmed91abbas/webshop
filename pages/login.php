@@ -2,7 +2,7 @@
 <h1>Sign in</h1>
 <br/>
 
-<form method="POST" action="../webshop/index.php?page=login">
+<form method="POST" action="index.php?page=login">
 Username:<br/>
 <input type="text" name="username" size="25" autofocus /><br/>
 Password:<br/>
@@ -19,11 +19,15 @@ if(isset($_POST['username'])){
 	}else{
 		include_once('db.inc.php');
 
-		$user = $_POST['username'];
-		$pwd = $_POST['password'];
+		$username = $_POST['username'];
+		$password = $_POST['password'];
+		
+		$saltedPW =  $password . $username;
+		
+		$hashedPW = hash('sha256', $saltedPW);
 
 		$stmt = $db->prepare("SELECT * FROM users WHERE Username = ? AND Password = ?");
-		$stmt->execute(array($user,$pwd));
+		$stmt->execute(array($username,$hashedPW));
 
 		if($stmt->rowCount() == 1){
 			$row = $stmt->fetch(PDO::FETCH_ASSOC);
