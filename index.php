@@ -40,6 +40,9 @@ switch($page){
 	case 'shoppingcart': include('pages/shoppingcart.php');
 	break;
 	
+	case 'receipt': include('pages/receipt.php');
+	break;
+	
 	default: include('pages/home.php');
 	break;
 }	

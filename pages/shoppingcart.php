@@ -22,7 +22,7 @@
 						$price = $row['Price'];
 						$quantity = $row['Quantity'];
 						echo "<tr>";
-						echo "<td>".$row['Product']."    "."</td>";
+						echo "<td>".$row['Product']."</td>";
 						echo "<td>".$price."</td>";
 						echo "<td>".$quantity."</td>";
 						echo "</tr>";
@@ -44,7 +44,7 @@
 		<input type="text" name="nameoncard" size="25"/><br/>
 		Valid to:<br/>
 		<input type="text" name="validto" size="25"/><br/><br/>
-		<input type="submit" value="Make payment" name="pay"/>
+		<input type="submit" value="Make payment" name="pay" onclick="this.form.action='index.php?page=receipt'; this.form.submit()"/>
 		</form>
 		<br/><br/>
 	</div>
