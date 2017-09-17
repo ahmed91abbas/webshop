@@ -17,21 +17,21 @@ if(isset($_POST['username'])){
 	if(empty($_POST['username']) || empty($_POST['password'])){
 		echo "Please enter all fields";
 	}else{
-		include_once('db.inc.php');
+		include_once('connect.php');
 
 		$username = $_POST['username'];
 		$password = $_POST['password'];
 		
-		$saltedPW =  $password . $username;
-		
+		$saltedPW =  $password . $username;	
 		$hashedPW = hash('sha256', $saltedPW);
 
 		$stmt = $db->prepare("SELECT * FROM users WHERE Username = ? AND Password = ?");
-		$stmt->execute(array($username,$hashedPW));
+		$stmt->bind_param("ss", $username, $hashedPW);
+		$stmt->execute();
+		$result = $stmt->get_result();
 
-		if($stmt->rowCount() == 1){
-			$row = $stmt->fetch(PDO::FETCH_ASSOC);
-			
+		if($result->num_rows == 1){
+		    $row = $result->fetch_assoc();
 			
 			$_SESSION['username'] = $row['Username'];
 			$_SESSION['login'] = true;

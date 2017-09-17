@@ -26,7 +26,7 @@ if(isset($_POST['username'])){
 	    echo "Please enter all fields";
 	}else{
 
-		include_once('db.inc.php');
+	    include_once('connect.php');
 		$username = $_POST['username'];
 		$password = $_POST['password'];
 		$address = $_POST['address'];
@@ -34,22 +34,24 @@ if(isset($_POST['username'])){
 		$city = $_POST['city'];
 		
 		$stmt = $db->prepare("SELECT Username FROM users WHERE Username = ?");
-		$stmt->execute(array($username));
+		$stmt->bind_param("s", $username);
+		$stmt->execute();
+		$result = $stmt->get_result();
 		
-		if($stmt->rowCount() == 1){
+		if($result->num_rows != 0){
 		    echo "User already exists";
 		}else{
 		    $saltedPW =  $password . $username;
-		    
 		    $hashedPW = hash('sha256', $saltedPW);
 		    
             $stmt = $db->prepare("INSERT INTO users(Username,Password,Address,Zip,City) VALUES(?, ?, ?, ?, ?)");
-            $test = $stmt->execute(array($username,$hashedPW,$address,$zipcode,$city));
+            $stmt->bind_param("sssss", $username, $hashedPW, $address, $zipcode, $city);
+            $test = $stmt->execute();
 			
-            if($test == false){
-    		  echo "Error";
-            }else{
+            if($test){
                 header("Location: index.php?page=login");
+            }else{
+                echo "Error";
             }		
 	   }	
     }
