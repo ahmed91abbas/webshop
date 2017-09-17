@@ -1,6 +1,12 @@
-<div class="center">
-<h1>Receipt</h1>
-	<table style = 'text-align:center'>
+<div>
+<style>
+table {
+    border-collapse: collapse;
+    border: 1px solid black;
+	style: text-align:center;
+}
+</style>
+	<table>
 		<?php
 		require 'connect.php';
 		if($result = $db->query("SELECT * FROM shopping_cart")){
@@ -12,6 +18,21 @@
 				echo 'Please sign in to proceed';
 				die();
 			}
+			echo "<tr>", "<td>","</td>";
+			echo "<td>", "<br>", "<b>" , "Receipt", "</b>", "<br>", "</td>";
+			echo "<td>", "</td>", "</tr>";
+			
+			echo "<tr>", "<td>","</td>";
+			echo "<td>", "<br>", "<b>", "Webshop Deluxe", "</b>", "<br>", "</td>";
+			echo "<td>", "</td>", "</tr>";
+			
+			echo "<tr>", "<td>","</td>";
+			echo "<td>", "<br>", $username, "<br><br>", "</td>";
+			echo "<td>", "</td>", "</tr>";
+			
+			echo "<tr>", "<td>", "<b>", "Order details: ", "</b>", "<br><br>", "</td>";
+			echo "<td>", "</td>";
+			echo "<td>", "</td>", "</tr>";
 			foreach($rows as $row) {
 				if($row['User'] == $username) {
 					$price = $row['Price'];
@@ -24,11 +45,16 @@
 					$total = $total + ($price * $quantity);
 				}
 			}
-			echo "<br>", "<b>",$username,"</b>", "<br>";
-			echo "<br>", "<b>","Amount payed: ", $total, " SEK", "</b>", "<br>";
-			echo "<br>", "Order details: ", "<br>";
-		}
-		
+			echo "<tr>", "<td>","</td>";
+			echo "<td>", "<br>", "<b>","Amount payed: ", $total, " SEK", "</b>", "<br>", "</td>";
+			echo "<td>", "</td>", "</tr>";
+			
+			echo "<tr>", "<td>","</td>";
+			echo "<td>", "<br>", "Receipt number: ", rand(100000,999999), "<br><br>", "</td>";
+			echo "<td>", "</td>", "</tr>";
+		}		
 		?>
 	</table>
+	<?php echo "<br>"; ?>
+	<input type="submit" value="Print" name="print" style="height:50px; width:100px"/>
 </div>
