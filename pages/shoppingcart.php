@@ -1,31 +1,39 @@
-<div style="width:100%; border:5px solid #dadada;">
+<div style="width:100%;">
     <div style="width:400px; float: left;">
 		<h1>Shopping cart</h1>
-		<?php
-		require 'connect.php';
-		if($result = $db->query("SELECT * FROM shopping_cart")){
-			$rows = $result->fetch_all(MYSQLI_ASSOC);
-			$total = 0;
-			if(isset($_SESSION['login'])){
-				$username = "$_SESSION[username]";
-			} else {
-				echo 'Please sign in to proceed';
-				die();
-			}
-			foreach($rows as $row) {
-				if($row['User'] == $username) {
-					$price = $row['Price'];
-					$quantity = $row['Quantity'];
-					echo $row['Product'], ' ', $price, ' ', $quantity, '<br>';
-					$total = $total + ($price * $quantity);
+		<table border = 1 style = 'text-align:center'>
+
+			<?php
+			require 'connect.php';
+			if($result = $db->query("SELECT * FROM shopping_cart")){
+				$rows = $result->fetch_all(MYSQLI_ASSOC);
+				$total = 0;
+				if(isset($_SESSION['login'])){
+					$username = "$_SESSION[username]";
+				} else {
+					echo 'Please sign in to proceed';
+					die();
 				}
+				echo "<th><b>Product</b></th>";
+				echo "<th><b>Price (SEK)</b></th>";
+				echo "<th><b>Quantity</b></th>";
+				foreach($rows as $row) {
+					if($row['User'] == $username) {
+						$price = $row['Price'];
+						$quantity = $row['Quantity'];
+						echo "<tr>";
+						echo "<td>".$row['Product']."    "."</td>";
+						echo "<td>".$price."</td>";
+						echo "<td>".$quantity."</td>";
+						echo "</tr>";
+						$total = $total + ($price * $quantity);
+					}
+				}
+				echo "<br>", "Total cost: ", $total, " SEK", "<br>";
 			}
-			echo '_____________________________', '<br>';
-			echo 'Total: ', $total, '<br>';
-		}
-		
-		?>
-	
+			
+			?>
+		</table>
 	</div>
     <div style="width:400px; float: right;">
 		<h1>Payment</h1>
