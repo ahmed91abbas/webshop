@@ -49,7 +49,6 @@ switch($page){
 ?>
 </article>
 
-
 <footer>
 <?php if(isset($_SESSION['login'])){echo "Signed in as: $_SESSION[username] <br/>";}?>
 Webshop by: Albin Fridh, Ahmed Abbas, Carl Dahl, Christian Golcic
