@@ -37,6 +37,10 @@
 	</div>
     <div style="width:400px; float: right;">
 		<h1>Payment</h1>
+		<?php if($total == 0) {
+			echo "<br><br>You don't have any items to pay for!";
+			die();
+		}?>
 		<form method="POST" action="index.php?page=shoppingcart">
 		Card number:<br/>
 		<input type="text" name="cardnumber" size="25"/><br/>
