@@ -43,14 +43,23 @@
 		}?>
 		<form method="POST" action="index.php?page=shoppingcart">
 		Card number:<br/>
-		<input type="text" name="cardnumber" size="25"/><br/>
+		<input type="text" name="cardnumber" size="25" autofocus/><br/>
 		Name on card:<br/>
 		<input type="text" name="nameoncard" size="25"/><br/>
-		Valid to:<br/>
+		Valid to (mm/yy):<br/>
 		<input type="text" name="validto" size="25"/><br/><br/>
-		<input type="submit" value="Make payment" name="pay" onclick="this.form.action='index.php?page=receipt'; this.form.submit()"/>
+		<input type="submit" value="Make payment" name="pay"/>
 		</form>
 		<br/><br/>
+		<?php
+			if(isset($_POST['cardnumber'])){
+				if(empty($_POST['cardnumber']) || empty($_POST['nameoncard']) || empty($_POST['validto'])){
+					echo "Please enter all fields";
+				} else {
+					header("Location: index.php?page=receipt");
+				}
+			}
+		?>
 	</div>
 </div>
 

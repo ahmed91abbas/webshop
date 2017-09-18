@@ -6,7 +6,7 @@ table {
 	style: text-align:center;
 }
 </style>
-	<table>
+	<table bgcolor="#fff">
 		<?php
 		require 'connect.php';
 		if($result = $db->query("SELECT * FROM shopping_cart")){
