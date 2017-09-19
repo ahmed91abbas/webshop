@@ -28,7 +28,7 @@ tr:nth-child(even) {
         </tr> 
 		<?php 		
 		
-		include_once('connect.php');
+		require 'connect.php';
 		$sql = "SELECT * FROM products";
 		$result = $db->query($sql);
 		
@@ -42,18 +42,20 @@ tr:nth-child(even) {
 			echo "<td>".$Price."</td>";
 			echo "<td><form method=\"POST\" action=''><input type=\"submit\" value=\"Add to cart\" name=\"".$Name."\"/></form></td></td></tr>";
 			if(isset($_POST[$Name])){
-				$foo = 4;
-				$user = 'Carl';
-				$req = "INSERT INTO `shopping_cart`(`Product`, `Price`, `User`, `Quantity`) VALUES ($Name,$Price,$user,$foo)";
-				$stmt = $db->query($req);
-				if ($stmt === TRUE) {
-					echo "New record created successfully";
-				} else {
-					echo "Error: " . $req . "<br>" . $db->error;
+				if (isset($_SESSION['login'])) {
+					$username = "$_SESSION[username]";
+					$insert = $db->prepare("INSERT INTO shopping_cart(Product,Price,User,Quantity) VALUES('$Name', '$Price', '$username', 1)");
+					$succ = $insert->execute();		
+					if($succ){
+						echo "$Name has been added to your cart";
+					}else{
+						echo "Error";
+					}
+				}else {
+					echo "You need to sign in in order to add new products to your cart!";
 				}
 			}
-		} 			
-		
+		}
 ?>
 
     </table>
