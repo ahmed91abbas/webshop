@@ -37,11 +37,23 @@ tr:nth-child(even) {
 			$Name = $row['Name'];
 			$Image = $row['Pic'];
 			$Price = $row['Price'];
-			echo "<tr><td style='width: 200px;'>".$Name."</td><td style='width: 600px;'>*image*</td><td>".$Price."</td><td><a href=\"#\">Add to cart</a></td>\"</td></tr>";
-		} 
-
-		echo "</table>";
-  
+			echo "<tr><td>".$Name."</td>";
+			echo "<td>*image*</td>";
+			echo "<td>".$Price."</td>";
+			echo "<td><form method=\"POST\" action=''><input type=\"submit\" value=\"Add to cart\" name=\"".$Name."\"/></form></td></td></tr>";
+			if(isset($_POST[$Name])){
+				$foo = 4;
+				$user = 'Carl';
+				$req = "INSERT INTO `shopping_cart`(`Product`, `Price`, `User`, `Quantity`) VALUES ($Name,$Price,$user,$foo)";
+				$stmt = $db->query($req);
+				if ($stmt === TRUE) {
+					echo "New record created successfully";
+				} else {
+					echo "Error: " . $req . "<br>" . $db->error;
+				}
+			}
+		} 			
+		
 ?>
 
     </table>

@@ -8513,3 +8513,9 @@ InnoDB: Your database may be corrupt or you may have copied the InnoDB
 InnoDB: tablespace but not the InnoDB log files. See
 InnoDB: http://dev.mysql.com/doc/refman/5.6/en/forcing-innodb-recovery.html
 InnoDB: for more information.
+2017-09-19 14:54:15 267c InnoDB: Error: page 463 log sequence number 1986907
+InnoDB: is in the future! Current system log sequence number 1983238.
+InnoDB: Your database may be corrupt or you may have copied the InnoDB
+InnoDB: tablespace but not the InnoDB log files. See
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/forcing-innodb-recovery.html
+InnoDB: for more information.
