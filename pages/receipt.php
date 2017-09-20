@@ -12,12 +12,8 @@ table {
 		if($result = $db->query("SELECT * FROM shopping_cart")){
 			$rows = $result->fetch_all(MYSQLI_ASSOC);
 			$total = 0;
-			if(isset($_SESSION['login'])){
-				$username = "$_SESSION[username]";
-			} else {
-				echo 'Please sign in to proceed';
-				die();
-			}
+			$username = "$_SESSION[username]";
+			
 			echo "<tr>", "<td>","</td>";
 			echo "<td>", "<br>", "<b>" , "Receipt", "</b>", "<br>", "</td>";
 			echo "<td>", "</td>", "</tr>";
@@ -37,8 +33,9 @@ table {
 				if($row['User'] == $username) {
 					$price = $row['Price'];
 					$quantity = $row['Quantity'];
+					$product = $row['Product'];
 					echo "<tr>";
-					echo "<td>".$row['Product']."</td>";
+					echo "<td>".$product."</td>";
 					echo "<td>"."x".$quantity."</td>";
 					echo "<td>"."Price: ".$price." kr"."</td>";
 					echo "</tr>";
@@ -52,7 +49,8 @@ table {
 			echo "<tr>", "<td>","</td>";
 			echo "<td>", "<br>", "Receipt number: ", rand(100000,999999), "<br><br>", "</td>";
 			echo "<td>", "</td>", "</tr>";
-		}		
+		}	
+		
 		?>
 	</table>
 	<?php echo "<br>"; ?>

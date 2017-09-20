@@ -21,10 +21,12 @@
 					if($row['User'] == $username) {
 						$price = $row['Price'];
 						$quantity = $row['Quantity'];
+						$product = $row['Product'];
 						echo "<tr>";
-						echo "<td>".$row['Product']."</td>";
+						echo "<td>".$product."</td>";
 						echo "<td>".$price."</td>";
 						echo "<td>".$quantity."</td>";
+						echo "<td>"."<form method=POST><input type= submit value=  X  name=$product></form>"."</td>";
 						echo "</tr>";
 						$total = $total + ($price * $quantity);
 					}

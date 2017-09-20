@@ -44,7 +44,7 @@ tr:nth-child(even) {
 			if(isset($_POST[$Name])){
 				if (isset($_SESSION['login'])) {
 					$username = "$_SESSION[username]";
-					$insert = $db->prepare("INSERT INTO shopping_cart(Product,Price,User,Quantity) VALUES('$Name', '$Price', '$username', 1)");
+					$insert = $db->prepare("INSERT INTO shopping_cart(Product,Price,User,Quantity) VALUES('$Name', '$Price', '$username', 1) ON DUPLICATE KEY UPDATE Quantity = Quantity+1");
 					$succ = $insert->execute();		
 					if($succ){
 						echo "$Name has been added to your cart";
