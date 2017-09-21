@@ -5,20 +5,20 @@
 
 			<?php
 			require 'connect.php';
-			if($result = $db->query("SELECT * FROM shopping_cart")){
-				$rows = $result->fetch_all(MYSQLI_ASSOC);
-				$total = 0;
+
 				if(isset($_SESSION['login'])){
 					$username = "$_SESSION[username]";
 				} else {
 					echo 'Please sign in to proceed';
 					die();
 				}
+			if($result = $db->query("SELECT * FROM shopping_cart WHERE User='$username'")){
+				$rows = $result->fetch_all(MYSQLI_ASSOC);
+				$total = 0;
 				echo "<th><b>Product</b></th>";
 				echo "<th><b>Price (SEK)</b></th>";
 				echo "<th><b>Quantity</b></th>";
 				foreach($rows as $row) {
-					if($row['User'] == $username) {
 						$price = $row['Price'];
 						$quantity = $row['Quantity'];
 						$product = $row['Product'];
@@ -38,7 +38,6 @@
 							}
 						}
 					}
-				}
 				echo "<br>", "Total cost: ", $total, " SEK", "<br>";
 			}
 			
