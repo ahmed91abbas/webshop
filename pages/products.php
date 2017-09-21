@@ -24,7 +24,7 @@ tr:nth-child(even) {
             <th>Name</th> 
             <th>Image</th> 
             <th>Price</th> 
-			<th>Action</th>
+			<th>Quantity</th>
         </tr> 
 		<?php 		
 		
@@ -40,11 +40,16 @@ tr:nth-child(even) {
 			echo "<tr><td>".$Name."</td>";
 			echo "<td>*image*</td>";
 			echo "<td>".$Price."</td>";
-			echo "<td><form method=\"POST\" action=''><input type=\"submit\" value=\"Add to cart\" name=\"".$Name."\"/></form></td></td></tr>";
+			echo "<td><form method=\"POST\">";
+			echo "<input type= text name='".$Name.$Name."' size=3/>";
+			echo "   ";
+			echo "<input type=\"submit\" value=\"Add to cart\" name=\"".$Name."\"/></form></td></td></tr>";
 			if(isset($_POST[$Name])){
 				if (isset($_SESSION['login'])) {
 					$username = "$_SESSION[username]";
-					$insert = $db->prepare("INSERT INTO shopping_cart(Product,Price,User,Quantity) VALUES('$Name', '$Price', '$username', 1) ON DUPLICATE KEY UPDATE Quantity = Quantity+1");
+					$quantity = $_POST[$Name.$Name];
+					$sql = "INSERT INTO shopping_cart(Product,Price,User,Quantity) VALUES('$Name', '$Price', '$username', '$quantity') ON DUPLICATE KEY UPDATE Quantity = '".$quantity."'+1";
+					$insert = $db->prepare($sql);
 					$succ = $insert->execute();		
 					if($succ){
 						echo "$Name has been added to your cart";
