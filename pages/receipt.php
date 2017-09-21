@@ -50,7 +50,10 @@ table {
 			echo "<td>", "<br>", "Receipt number: ", rand(100000,999999), "<br><br>", "</td>";
 			echo "<td>", "</td>", "</tr>";
 		}	
-		
+		$sql = "DELETE FROM shopping_cart WHERE User='".$username."'";
+		if($db->query($sql) == FALSE){
+			echo "ERROR".$db->error;
+		}
 		?>
 	</table>
 	<?php echo "<br>"; ?>

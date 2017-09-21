@@ -29,6 +29,14 @@
 						echo "<td>"."<form method=POST><input type= submit value=  X  name=$product></form>"."</td>";
 						echo "</tr>";
 						$total = $total + ($price * $quantity);
+						if(isset($_POST[$product])){
+							$sql = "DELETE FROM shopping_cart WHERE Product='".$product."' AND User='".$username."'";
+							if($db->query($sql)){
+								header("Refresh:0");
+							} else {
+								echo "ERROR".$db->error;
+							}
+						}
 					}
 				}
 				echo "<br>", "Total cost: ", $total, " SEK", "<br>";
