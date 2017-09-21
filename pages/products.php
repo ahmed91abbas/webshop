@@ -48,13 +48,17 @@ tr:nth-child(even) {
 				if (isset($_SESSION['login'])) {
 					$username = "$_SESSION[username]";
 					$quantity = $_POST[$Name.$Name];
-					$sql = "INSERT INTO shopping_cart(Product,Price,User,Quantity) VALUES('$Name', '$Price', '$username', '$quantity') ON DUPLICATE KEY UPDATE Quantity = '".$quantity."'+1";
-					$insert = $db->prepare($sql);
-					$succ = $insert->execute();		
-					if($succ){
-						echo "$Name has been added to your cart";
-					}else{
-						echo "Error";
+					if (is_numeric($quantity)) { 
+						$sql = "INSERT INTO shopping_cart(Product,Price,User,Quantity) VALUES('$Name', '$Price', '$username', '$quantity') ON DUPLICATE KEY UPDATE Quantity = '".$quantity."'+1";
+						$insert = $db->prepare($sql);
+						$succ = $insert->execute();		
+						if($succ){
+							echo "$Name has been added to your cart";
+						}else{
+							echo "Error";
+						}
+					} else {
+						echo "Quantity must be a number!";
 					}
 				}else {
 					echo "You need to sign in in order to add new products to your cart!";
