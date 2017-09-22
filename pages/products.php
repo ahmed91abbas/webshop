@@ -30,9 +30,13 @@ tr:nth-child(even) {
 		
 		require 'connect.php';
 		$sql = "SELECT * FROM products";
+		if(isset($_POST['search'])){
+			$search = $_POST['searchField'];
+			if($search != "")
+				$sql = "SELECT * FROM products WHERE Name='".$search."'";
+		}
 		$result = $db->query($sql);
-		
-		
+			
 		while($row = mysqli_fetch_array($result)) {
 			$Name = $row['Name'];
 			$Image = $row['Pic'];
