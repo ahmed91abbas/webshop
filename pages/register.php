@@ -41,19 +41,35 @@ if(isset($_POST['username'])){
 		if($result->num_rows != 0){
 		    echo "User already exists";
 		}else{
-		    $saltedPW =  $password . $username;
-		    $hashedPW = hash('sha256', $saltedPW);
-		    
-            $stmt = $db->prepare("INSERT INTO users(Username,Password,Address,Zip,City) VALUES(?, ?, ?, ?, ?)");
-            $stmt->bind_param("sssss", $username, $hashedPW, $address, $zipcode, $city);
-            $test = $stmt->execute();
-			
-            if($test){
-                header("Location: index.php?page=login");
-            }else{
-                echo "Error";
-            }		
-	   }	
+		    if (preg_match('/^([a-zA-Z0-9+-@*#_]{6,30})$/', $password)){
+		        $stmt = $db->prepare("SELECT password FROM blacklist WHERE password = ?");
+		        $stmt->bind_param("s", $password);
+		        $stmt->execute();
+		        $result = $stmt->get_result();
+		        
+		        if($result->num_rows != 0){
+		            echo "Blacklisted password. Please select a different one";
+		        }else{
+		            $saltedPW =  $password . strtolower($username);
+        		    $hashedPW = hash('sha256', $saltedPW);
+        		    
+                    $stmt = $db->prepare("INSERT INTO users(Username,Password,Address,Zip,City) VALUES(?, ?, ?, ?, ?)");
+                    $stmt->bind_param("sssss", $username, $hashedPW, $address, $zipcode, $city);
+                    $test = $stmt->execute();
+        			
+                    if($test){
+                        header("Location: index.php?page=login");
+                    }else{
+                        echo "Error, try again";
+                    }
+		        }
+		    }else{
+		        echo "Password can only contain alfanumeric characters, +-@*#_ and must be between 6 and 30 characters long";
+		    }
+	   }
+	   
+	   $stmt->close();
+	   $db->close();
     }
 }
 ?>

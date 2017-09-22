@@ -22,13 +22,16 @@ if(isset($_POST['username'])){
 		$username = $_POST['username'];
 		$password = $_POST['password'];
 		
-		$saltedPW =  $password . $username;	
+		$saltedPW =  $password . strtolower($username);
 		$hashedPW = hash('sha256', $saltedPW);
 
 		$stmt = $db->prepare("SELECT * FROM users WHERE Username = ? AND Password = ?");
 		$stmt->bind_param("ss", $username, $hashedPW);
 		$stmt->execute();
 		$result = $stmt->get_result();
+		
+		$stmt->close();
+		$db->close();
 
 		if($result->num_rows == 1){
 		    $row = $result->fetch_assoc();
