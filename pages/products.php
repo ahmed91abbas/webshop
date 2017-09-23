@@ -21,9 +21,10 @@ tr:nth-child(even) {
 <body>
     <table> 
         <tr> 
-            <th>Name</th> 
             <th>Image</th> 
-            <th>Price</th> 
+            <th>Name</th>
+			<th>Description</th>
+            <th>Price (SEK)</th> 
 			<th>Quantity</th>
         </tr> 
 		<?php 		
@@ -41,8 +42,12 @@ tr:nth-child(even) {
 			$Name = $row['Name'];
 			$Image = $row['Pic'];
 			$Price = $row['Price'];
-			echo "<tr><td>".$Name."</td>";
-			echo "<td>*image*</td>";
+			$Description = $row['Description'];
+			echo "<tr><td>";
+			echo '<img src="data:image/jpeg;base64,'.base64_encode( $Image ).'" style="width:100px;height:100px;"/>';
+			echo "</td>";
+			echo "<td>".str_replace("_"," ",$Name)."</td>";
+			echo "<td>".$Description."</td>";
 			echo "<td>".$Price."</td>";
 			echo "<td><form method=\"POST\">";
 			echo "<input type= text name='".$Name.$Name."' size=3/>";
@@ -79,4 +84,6 @@ tr:nth-child(even) {
 ?>
 
     </table>
+	<br>
+	<br>
 </body>
