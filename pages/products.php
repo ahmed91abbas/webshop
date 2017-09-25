@@ -72,7 +72,9 @@ tr:nth-child(even) {
 								$current_quantity = $value->Quantity;	
 							}
 						}
-						$sql = "INSERT INTO shopping_cart(Product,Price,User,Quantity) VALUES('$Name', '$Price', '$username', '$quantity') ON DUPLICATE KEY UPDATE Quantity = '".$quantity."'+'".$current_quantity."'";
+						$sql = "INSERT INTO shopping_cart(Product,Price,User,Quantity) 
+									VALUES('$Name', '$Price', '$username', '$quantity') 
+									ON DUPLICATE KEY UPDATE Quantity = '".$quantity."'+'".$current_quantity."'";
 						$insert = $db->prepare($sql);
 						$succ = $insert->execute();		
 						if($succ){

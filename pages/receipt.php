@@ -43,7 +43,7 @@ table {
 				}
 			}
 			echo "<tr>", "<td>","</td>";
-			echo "<td>", "<br>", "<b>","Amount paied: ", $total, " SEK", "</b>", "<br>", "</td>";
+			echo "<td>", "<br>", "<b>","Amount paid: ", $total, " SEK", "</b>", "<br>", "</td>";
 			echo "<td>", "</td>", "</tr>";
 			
 			echo "<tr>", "<td>","</td>";
