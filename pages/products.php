@@ -31,12 +31,19 @@ tr:nth-child(even) {
 		
 		require 'connect.php';
 		$sql = "SELECT * FROM products";
+		$result = $db->query($sql);
 		if(isset($_POST['search'])){
 			$search = $_POST['searchField'];
-			if($search != "")
+			if($search != "") {
 				$sql = "SELECT * FROM products WHERE Name='".$search."'";
+				$stmt = $db->prepare("SELECT * FROM Products WHERE Name = ?");
+				$stmt->bind_param("s", $search);
+				$stmt->execute();
+				$result = $stmt->get_result();
+				$stmt->close();
+			}
 		}
-		if($result = $db->query($sql)){
+		if($result){
 			
 		while($row = mysqli_fetch_array($result)) {
 			$Name = $row['Name'];
@@ -82,7 +89,7 @@ tr:nth-child(even) {
 			}
 		}
 	} else {
-		echo $db->error;
+		echo "Error! Please try again!.";
 	} 
 ?>
 
