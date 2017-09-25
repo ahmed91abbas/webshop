@@ -36,7 +36,7 @@ tr:nth-child(even) {
 			if($search != "")
 				$sql = "SELECT * FROM products WHERE Name='".$search."'";
 		}
-		$result = $db->query($sql);
+		if($result = $db->query($sql)){
 			
 		while($row = mysqli_fetch_array($result)) {
 			$Name = $row['Name'];
@@ -81,6 +81,9 @@ tr:nth-child(even) {
 				}
 			}
 		}
+	} else {
+		echo $db->error;
+	} 
 ?>
 
     </table>
