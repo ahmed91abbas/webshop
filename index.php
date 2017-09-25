@@ -23,7 +23,7 @@ $page = 'start';
 if(isset($_GET['page'])){
 	$page = $_GET['page'];
 }
-
+$secure = TRUE;
 switch($page){
 	case 'home': include('pages/home.php');
 	break;
