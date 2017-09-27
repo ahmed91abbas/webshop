@@ -9,7 +9,8 @@
 	<a href="?page=login">Sign in</a>';
 	} ?>
 	
-	<div style="float: right;">		
+	<div style="float: right;">
+	<a href="?page=feedback">Feedback</a>
 	<a href="?page=shoppingcart">Shopping cart</a>
 	</div>
 </nav>

@@ -43,6 +43,9 @@ switch($page){
 	case 'receipt': include('pages/receipt.php');
 	break;
 	
+	case 'feedback': include('pages/feedback.php');
+	break;
+	
 	default: include('pages/home.php');
 	break;
 }	
