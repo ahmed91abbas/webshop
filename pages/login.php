@@ -12,8 +12,9 @@ Password:<br/>
 <br/><br/>
 
 
-<?php 
-if(isset($_POST['username'])){
+<?php
+$time_passed = 0;
+if(isset($_POST['loggin'])){
 	if(empty($_POST['username']) || empty($_POST['password'])){
 		echo "Please enter all fields";
 	}else{
@@ -24,31 +25,66 @@ if(isset($_POST['username'])){
 		
 		$saltedPW =  $password . strtolower($username);
 		$hashedPW = hash('sha256', $saltedPW);
-		
-		if($secure){
-			$stmt = $db->prepare("SELECT * FROM users WHERE Username = ? AND Password = ?");
-			$stmt->bind_param("ss", $username, $hashedPW);
-			$stmt->execute();
-			$result = $stmt->get_result();
-			
-			$stmt->close();
-			$db->close();
-		} else {
-			$sql = "SELECT * FROM users WHERE Username = '".$username."' AND Password = '".$password."'";
-			$result = $db->query($sql);
-		}
-		if($result->num_rows != 0){
-		    $row = $result->fetch_assoc();
-			
-			$_SESSION['username'] = $row['Username'];
-			$_SESSION['login'] = true;
-			
-			header("Location: index.php");
-			
+		$stmt = $db->prepare("SELECT * FROM users WHERE Username = ?");
+		$stmt->bind_param("s", $username);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$stmt->close();
+		if($result->num_rows == 1){
+			$row = $result->fetch_assoc();
+			$locked = $row['Locked'];
+			$time_passed = time() - $locked;
+			//TODO for future development check date as well.
+			if($time_passed > 15) {
+				$time_passed = 0;
+				
+				if($row['Password'] == $hashedPW){
+					$sql = "UPDATE users SET Attempts = 0, Locked = 0 WHERE Username = ?";
+					$stmt = $db->prepare($sql);
+					$stmt->bind_param("s", $username);
+					$stmt->execute();
+					$db->query($sql);
+					$_SESSION['username'] = $row['Username'];
+					$_SESSION['login'] = true;
+					header("Location: index.php");
+				} else {
+					echo "The password you entered is incorrect!\n";
+					$failed_attempts = $row['Attempts'] + 1;
+					$sql = "UPDATE users SET Attempts = ".$failed_attempts.", Locked = 0  WHERE Username = ?";
+					if($failed_attempts > 2) {
+						echo "<br>"."Your account have been locked for 15 seconds!";
+						$sql = "UPDATE users SET Attempts = ".$failed_attempts.", Locked = ".time()." WHERE Username = ?";
+					}
+					$stmt = $db->prepare($sql);
+					$stmt->bind_param("s", $username);
+					$stmt->execute();
+					$db->query($sql);
+				}
+				
+			} else {
+				$remaining = 15 - $time_passed;
+				echo "Your account is still locked!";
+			}
 		}else{
-			echo "Wrong username or password";
+			echo "User ".$username." does not exist!";
 		}
 	}
 }
 ?>
 </div>
+
+
+<p id="lock"></p>
+<script>
+	var period = "<?php echo 15 - $time_passed ?>";
+	if(period != 15 ) {
+		var x = setInterval(function() {
+			document.getElementById("lock").innerHTML = "Locked for " + period + " seconds";
+			period = period - 1;
+			if (period < 0) {
+				clearInterval(x);
+				document.getElementById("lock").innerHTML = "You can try again now.";
+			}
+		}, 1000);
+	}
+</script>

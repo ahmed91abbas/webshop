@@ -35,12 +35,16 @@ tr:nth-child(even) {
 		if(isset($_POST['search'])){
 			$search = $_POST['searchField'];
 			if($search != "") {
-				$sql = "SELECT * FROM products WHERE Name='".$search."'";
-				$stmt = $db->prepare("SELECT * FROM Products WHERE Name = ?");
-				$stmt->bind_param("s", $search);
-				$stmt->execute();
-				$result = $stmt->get_result();
-				$stmt->close();
+				if($secure) {
+					$stmt = $db->prepare("SELECT * FROM Products WHERE Name = ?");
+					$stmt->bind_param("s", $search);
+					$stmt->execute();
+					$result = $stmt->get_result();
+					$stmt->close();
+				} else {
+					$sql = "SELECT * FROM products WHERE Name='".$search."'";
+					$result = $db->query($sql);
+				}
 			}
 		}
 		if($result){
