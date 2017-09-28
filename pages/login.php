@@ -19,31 +19,28 @@ if(isset($_POST['loggin'])){
 		echo "Please enter all fields";
 	}else{
 		include_once('connect.php');
-
+		
 		$username = $_POST['username'];
 		$password = $_POST['password'];
 		
 		$saltedPW =  $password . strtolower($username);
 		$hashedPW = hash('sha256', $saltedPW);
-		$stmt = $db->prepare("SELECT * FROM users WHERE Username = ?");
-		$stmt->bind_param("s", $username);
-		$stmt->execute();
-		$result = $stmt->get_result();
 		
-		if($result->num_rows == 1){
-			$row = $result->fetch_assoc();
+		$stmt = $db->prepare("SELECT * FROM users WHERE username = ? COLLATE NOCASE");
+		$stmt->execute(array($username));
+		$row = $stmt->fetch(PDO::FETCH_ASSOC);
+		
+		if(!empty($row)){
 			$locked = $row['Locked'];
 			$time_passed = time() - $locked;
 			//TODO for future development check date as well.
 			if($time_passed > 15) {
 				$time_passed = 0;
+
 				
 				if($row['Password'] == $hashedPW){
-					$sql = "UPDATE users SET Attempts = 0, Locked = 0 WHERE Username = ?";
-					$stmt = $db->prepare($sql);
-					$stmt->bind_param("s", $username);
-					$stmt->execute();
-					$db->query($sql);
+					$stmt = $db->prepare("UPDATE users SET Attempts = 0, Locked = 0 WHERE Username = ?");
+					$stmt->execute(array($username));
 					$_SESSION['username'] = $row['Username'];
 					$_SESSION['login'] = true;
 					header("Location: index.php");
@@ -61,9 +58,8 @@ if(isset($_POST['loggin'])){
 					}
 					
 					$stmt = $db->prepare($sql);
-					$stmt->bind_param("iis", $failed_attempts, $time, $username);
+					$stmt->execute(array($failed_attempts, $time, $username));
 					$stmt->execute();
-					$db->query($sql);
 				}
 				
 			} else {
@@ -72,8 +68,6 @@ if(isset($_POST['loggin'])){
 		}else{
 			echo "User ".$username." does not exist!";
 		}
-		$stmt->close();
-		$db->close();
 	}
 }
 ?>

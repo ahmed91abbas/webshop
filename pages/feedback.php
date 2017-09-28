@@ -1,5 +1,3 @@
-<div class="center">
-<h1>Customers feedback</h1>
 <style>
 table {
     font-family: arial, sans-serif;
@@ -17,7 +15,9 @@ tr:nth-child(even) {
     background-color: #dddddd;
 }
 </style>
-<body>
+<div class="center">
+<h1>Customers feedback</h1>
+
 <table>
 <tr> 
 <th></th>
@@ -28,25 +28,22 @@ require 'connect.php';
 if(isset($_POST['feedback'])) {
 	$text = $_POST['feedback_field'];
 	if($text != "") {
-		if($secure)
-			$text = strip_tags($text);
-		$sql = "INSERT INTO feedback (Feedback) VALUES(?)";
-		$stmt = $db->prepare($sql);
-		$stmt->bind_param("s", $text);
-		$stmt->execute();
-		$stmt->close();
+	    if($secure)
+	        $text = strip_tags($text);
+	        $stmt = $db->prepare("INSERT INTO feedback (Feedback) VALUES(?)");
+	        $stmt->execute(array($text));
 	}
 }
 
 if($result = $db->query("SELECT * FROM feedback")){
-	$rows = $result->fetch_all(MYSQLI_ASSOC);
+    $rows = $result->fetchAll(PDO::FETCH_ASSOC);
 	foreach($rows as $row) {
 		echo "<tr><td>";
 		echo "".$row['Feedback']."";
 		echo "</td></tr>";
 	}
 }
-$db->close();
+
 ?>
 </table>
 

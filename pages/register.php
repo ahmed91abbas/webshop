@@ -33,29 +33,26 @@ if(isset($_POST['username'])){
 		$zipcode = $_POST['zipcode'];
 		$city = $_POST['city'];
 		
-		$stmt = $db->prepare("SELECT Username FROM users WHERE Username = ?");
-		$stmt->bind_param("s", $username);
-		$stmt->execute();
-		$result = $stmt->get_result();
+		$stmt = $db->prepare("SELECT Username FROM users WHERE Username = ? COLLATE NOCASE");
+		$stmt->execute(array($username));
+		$row = $stmt->fetch(PDO::FETCH_ASSOC);
 		
-		if($result->num_rows != 0){
+		if(!empty($row)){
 		    echo "User already exists";
 		}else{
 		    if (preg_match('/^([a-zA-Z0-9+-@*#_]{6,30})$/', $password)){
 		        $stmt = $db->prepare("SELECT password FROM blacklist WHERE password = ?");
-		        $stmt->bind_param("s", $password);
-		        $stmt->execute();
-		        $result = $stmt->get_result();
+		        $stmt->execute(array($password));
+		        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 		        
-		        if($result->num_rows != 0){
+		        if(!empty($row)){
 		            echo "Blacklisted password. Please select a different one";
 		        }else{
 		            $saltedPW =  $password . strtolower($username);
         		    $hashedPW = hash('sha256', $saltedPW);
         		    
                     $stmt = $db->prepare("INSERT INTO users(Username,Password,Address,Zip,City) VALUES(?, ?, ?, ?, ?)");
-                    $stmt->bind_param("sssss", $username, $hashedPW, $address, $zipcode, $city);
-                    $test = $stmt->execute();
+                    $test = $stmt->execute(array($username, $hashedPW, $address, $zipcode, $city));
         			
                     if($test){
                         header("Location: index.php?page=login");
@@ -68,8 +65,6 @@ if(isset($_POST['username'])){
 		    }
 	   }
 	   
-	   $stmt->close();
-	   $db->close();
     }
 }
 ?>

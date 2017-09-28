@@ -30,26 +30,23 @@ tr:nth-child(even) {
 		<?php 		
 		
 		require 'connect.php';
-		$sql = "SELECT * FROM products";
-		$result = $db->query($sql);
+		$result = $db->query("SELECT * FROM products");
 		if(isset($_POST['search'])){
 			$search = $_POST['searchField'];
 			if($search != "") {
 				if($secure) {
-					$stmt = $db->prepare("SELECT * FROM Products WHERE Name = ?");
-					$stmt->bind_param("s", $search);
-					$stmt->execute();
-					$result = $stmt->get_result();
-					$stmt->close();
+				    $result = $db->prepare("SELECT * FROM Products WHERE Name LIKE ? COLLATE NOCASE");
+				    $result->execute(array($search . "%"));
+					
 				} else {
-					$sql = "SELECT * FROM products WHERE Name='".$search."'";
+					$sql = "SELECT * FROM products WHERE Name LIKE'".$search."' COLLATE NOCASE";
 					$result = $db->query($sql);
 				}
 			}
 		}
 		if($result){
 			
-		while($row = mysqli_fetch_array($result)) {
+		    while($row = $result->fetch(PDO::FETCH_ASSOC)) {
 			$Name = $row['Name'];
 			$Image = $row['Pic'];
 			$Price = $row['Price'];
@@ -69,18 +66,20 @@ tr:nth-child(even) {
 					$username = "$_SESSION[username]";
 					$quantity = $_POST[$Name.$Name];
 					if (is_numeric($quantity)) {
-						$sql1 = "SELECT * FROM shopping_cart WHERE User='$username' AND Product='$Name' LIMIT 1";
+					    $stmt = $db->prepare("SELECT * FROM shopping_cart WHERE User = ? AND Product = ? LIMIT 1");
+					    $stmt->execute(array($username,$Name));
+					    $row = $stmt->fetch(PDO::FETCH_ASSOC);
 						$current_quantity = 0;
-						if($result1 = $db->query($sql1)){
-							if($value = $result1->fetch_object()){
-								$current_quantity = $value->Quantity;	
-							}
+						
+						if(!empty($row)){
+							$current_quantity = $row['Quantity'];
+							$update = $db->prepare("UPDATE shopping_cart SET Quantity = ? WHERE User = ? AND Product = ?");
+							$succ = $update->execute(array($current_quantity + $quantity,$username,$Name));
+						}else{
+						    $insert = $db->prepare("INSERT INTO shopping_cart(Product,Price,User,Quantity) VALUES(?, ?, ?, ?)");
+						    $succ = $insert->execute(array($Name,$Price,$username,$quantity));
 						}
-						$sql = "INSERT INTO shopping_cart(Product,Price,User,Quantity) 
-									VALUES('$Name', '$Price', '$username', '$quantity') 
-									ON DUPLICATE KEY UPDATE Quantity = '".$quantity."'+'".$current_quantity."'";
-						$insert = $db->prepare($sql);
-						$succ = $insert->execute();		
+	
 						if($succ){
 							echo "$Name has been added to your cart";
 						}else{

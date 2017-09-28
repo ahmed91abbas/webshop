@@ -10,7 +10,7 @@ table {
 		<?php
 		require 'connect.php';
 		if($result = $db->query("SELECT * FROM shopping_cart")){
-			$rows = $result->fetch_all(MYSQLI_ASSOC);
+		    $rows = $result->fetchAll(PDO::FETCH_ASSOC);
 			$total = 0;
 			$username = "$_SESSION[username]";
 			
