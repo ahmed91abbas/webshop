@@ -40,7 +40,7 @@ password varchar (30)
 
 INSERT INTO products(Name,Description,Pic,Price)
 VALUES('Plumbus', 'Every home needs one!', readfile('plumbus.jpg'), 1000),
-('Meeseeks box', 'For your every day needs!', readfile('meBox.jpg'), 10000),
+('Meeseeks_box', 'For your every day needs!', readfile('meBox.jpg'), 10000),
 ('Thing', 'No one is really sure what this is even on our end. Isn''t it exiting!?', readfile('thing.jpg'), 10),
 ('Windex', 'A popular budget alternative to our best selling Meeseeks box!', readfile('windex.jpg'), 50),
 ('Duck', 'All our ducks are of the highest quality and fully organic!', readfile('duck.jpg'), 300);
