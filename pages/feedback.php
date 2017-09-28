@@ -28,8 +28,13 @@ require 'connect.php';
 if(isset($_POST['feedback'])) {
 	$text = $_POST['feedback_field'];
 	if($text != "") {
-		$sql = "INSERT INTO feedback (Feedback) VALUES('".$text."')"; 
-		$db->query($sql);
+		if($secure)
+			$text = strip_tags($text);
+		$sql = "INSERT INTO feedback (Feedback) VALUES(?)";
+		$stmt = $db->prepare($sql);
+		$stmt->bind_param("s", $text);
+		$stmt->execute();
+		$stmt->close();
 	}
 }
 
@@ -41,7 +46,7 @@ if($result = $db->query("SELECT * FROM feedback")){
 		echo "</td></tr>";
 	}
 }
-
+$db->close();
 ?>
 </table>
 

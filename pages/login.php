@@ -67,7 +67,6 @@ if(isset($_POST['loggin'])){
 				}
 				
 			} else {
-				$remaining = 15 - $time_passed;
 				echo "Your account is still locked!";
 			}
 		}else{
