@@ -29,7 +29,7 @@ if(isset($_POST['loggin'])){
 		$stmt->bind_param("s", $username);
 		$stmt->execute();
 		$result = $stmt->get_result();
-		$stmt->close();
+		
 		if($result->num_rows == 1){
 			$row = $result->fetch_assoc();
 			$locked = $row['Locked'];
@@ -49,14 +49,19 @@ if(isset($_POST['loggin'])){
 					header("Location: index.php");
 				} else {
 					echo "The password you entered is incorrect!\n";
+					
 					$failed_attempts = $row['Attempts'] + 1;
-					$sql = "UPDATE users SET Attempts = ".$failed_attempts.", Locked = 0  WHERE Username = ?";
+					$sql = "UPDATE users SET Attempts = ?, Locked = ? WHERE Username = ?";
+					$time = 0;
+					
 					if($failed_attempts > 2) {
 						echo "<br>"."Your account have been locked for 15 seconds!";
-						$sql = "UPDATE users SET Attempts = ".$failed_attempts.", Locked = ".time()." WHERE Username = ?";
+						$sql = "UPDATE users SET Attempts = ?, Locked = ? WHERE Username = ?";
+						$time = time();
 					}
+					
 					$stmt = $db->prepare($sql);
-					$stmt->bind_param("s", $username);
+					$stmt->bind_param("iis", $failed_attempts, $time, $username);
 					$stmt->execute();
 					$db->query($sql);
 				}
@@ -68,13 +73,15 @@ if(isset($_POST['loggin'])){
 		}else{
 			echo "User ".$username." does not exist!";
 		}
+		$stmt->close();
+		$db->close();
 	}
 }
 ?>
+
+
+<p id="lock" style="text-align: center;"></p>
 </div>
-
-
-<p id="lock"></p>
 <script>
 	var period = "<?php echo 15 - $time_passed ?>";
 	if(period != 15 ) {
