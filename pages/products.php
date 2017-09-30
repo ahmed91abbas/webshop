@@ -58,7 +58,7 @@ tr:nth-child(even) {
 			echo "<td>".$Description."</td>";
 			echo "<td>".$Price."</td>";
 			echo "<td><form method=\"POST\">";
-			echo "<input type= text name='".$Name.$Name."' size=3/>";
+			echo "<input type= text name='".$Name.$Name."' size=3 value='1'/>";
 			echo "   ";
 			echo "<input type=\"submit\" value=\"Add to cart\" name=\"".$Name."\"/></form></td></td></tr>";
 			if(isset($_POST[$Name])){
