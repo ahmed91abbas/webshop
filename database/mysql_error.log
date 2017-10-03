@@ -1,0 +1,186 @@
+2017-10-03 10:28:17 2134 InnoDB: Warning: Using innodb_additional_mem_pool_size is DEPRECATED. This option may be removed in future releases, together with the option innodb_use_sys_malloc and with the InnoDB's internal memory allocator.
+2017-10-03 10:28:17 8500 [Note] InnoDB: innodb_empty_free_list_algorithm has been changed to legacy because of small buffer pool size. In order to use backoff, increase buffer pool at least up to 20MB.
+
+2017-10-03 10:28:17 8500 [Note] InnoDB: Using mutexes to ref count buffer pool pages
+2017-10-03 10:28:17 8500 [Note] InnoDB: The InnoDB memory heap is disabled
+2017-10-03 10:28:17 8500 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2017-10-03 10:28:17 8500 [Note] InnoDB: _mm_lfence() and _mm_sfence() are used for memory barrier
+2017-10-03 10:28:17 8500 [Note] InnoDB: Compressed tables use zlib 1.2.3
+2017-10-03 10:28:17 8500 [Note] InnoDB: Using generic crc32 instructions
+2017-10-03 10:28:17 8500 [Note] InnoDB: Initializing buffer pool, size = 16.0M
+2017-10-03 10:28:17 8500 [Note] InnoDB: Completed initialization of buffer pool
+2017-10-03 10:28:17 2134  InnoDB: Operating system error number 3 in a file operation.
+InnoDB: The error means the system cannot find the path specified.
+InnoDB: If you are installing InnoDB, remember that you must create
+InnoDB: directories yourself, InnoDB does not create them.
+ InnoDB: Operation create to file D:\win32-packages\build\src\storage\xtradb\os\os0file.cc and at line 2047
+2017-10-03 10:28:17 8500 [ERROR] InnoDB: File C:\xampp\htdocs\webshop\data\ibdata1: 'create' returned OS error 203. Cannot continue operation
+171003 10:28:17 [ERROR] mysqld got exception 0x80000003 ;
+This could be because you hit a bug. It is also possible that this binary
+or one of the libraries it was linked against is corrupt, improperly built,
+or misconfigured. This error can also be caused by malfunctioning hardware.
+
+To report this bug, see https://mariadb.com/kb/en/reporting-bugs
+
+We will try our best to scrape up some info that will hopefully help
+diagnose the problem, but since we have already crashed, 
+something is definitely wrong and this may fail.
+
+Server version: 10.1.26-MariaDB
+key_buffer_size=16777216
+read_buffer_size=262144
+max_used_connections=0
+max_threads=1001
+thread_count=0
+It is possible that mysqld could use up to 
+key_buffer_size + (read_buffer_size + sort_buffer_size)*max_threads = 787113 K  bytes of memory
+Hope that's ok; if not, decrease some variables in the equation.
+
+Thread pointer: 0x0
+Attempting backtrace. You can use the following information to find out
+where mysqld died. If you see no messages after this, something went
+terribly wrong...
+mysqld.exe!my_parameter_handler()
+mysqld.exe!strxnmov()
+mysqld.exe!?compare_ulonglong@@YAHPB_K0@Z()
+mysqld.exe!?compare_ulonglong@@YAHPB_K0@Z()
+mysqld.exe!?copy_or_same@Item@@UAEPAV1@PAVTHD@@@Z()
+mysqld.exe!?copy_or_same@Item@@UAEPAV1@PAVTHD@@@Z()
+mysqld.exe!?copy_or_same@Item@@UAEPAV1@PAVTHD@@@Z()
+mysqld.exe!?fix_length_and_dec@subselect_hash_sj_engine@@UAEXPAPAVItem_cache@@@Z()
+mysqld.exe!?ha_initialize_handlerton@@YAHPAUst_plugin_int@@@Z()
+mysqld.exe!?plugin_init@@YAHPAHPAPADH@Z()
+mysqld.exe!?plugin_init@@YAHPAHPAPADH@Z()
+mysqld.exe!?init_net_server_extension@@YAXPAVTHD@@@Z()
+mysqld.exe!?win_main@@YAHHPAPAD@Z()
+mysqld.exe!?mysql_service@@YAHPAX@Z()
+mysqld.exe!strxnmov()
+KERNEL32.DLL!BaseThreadInitThunk()
+ntdll.dll!RtlGetAppContainerNamedObjectPath()
+ntdll.dll!RtlGetAppContainerNamedObjectPath()
+The manual page at http://dev.mysql.com/doc/mysql/en/crashing.html contains
+information that should help you find out what is causing the crash.
+2017-10-03 10:30:47 367c InnoDB: Warning: Using innodb_additional_mem_pool_size is DEPRECATED. This option may be removed in future releases, together with the option innodb_use_sys_malloc and with the InnoDB's internal memory allocator.
+2017-10-03 10:30:47 13948 [Note] InnoDB: innodb_empty_free_list_algorithm has been changed to legacy because of small buffer pool size. In order to use backoff, increase buffer pool at least up to 20MB.
+
+2017-10-03 10:30:47 13948 [Note] InnoDB: Using mutexes to ref count buffer pool pages
+2017-10-03 10:30:47 13948 [Note] InnoDB: The InnoDB memory heap is disabled
+2017-10-03 10:30:47 13948 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2017-10-03 10:30:47 13948 [Note] InnoDB: _mm_lfence() and _mm_sfence() are used for memory barrier
+2017-10-03 10:30:47 13948 [Note] InnoDB: Compressed tables use zlib 1.2.3
+2017-10-03 10:30:47 13948 [Note] InnoDB: Using generic crc32 instructions
+2017-10-03 10:30:47 13948 [Note] InnoDB: Initializing buffer pool, size = 16.0M
+2017-10-03 10:30:47 13948 [Note] InnoDB: Completed initialization of buffer pool
+2017-10-03 10:30:47 367c  InnoDB: Operating system error number 3 in a file operation.
+InnoDB: The error means the system cannot find the path specified.
+InnoDB: If you are installing InnoDB, remember that you must create
+InnoDB: directories yourself, InnoDB does not create them.
+ InnoDB: Operation create to file D:\win32-packages\build\src\storage\xtradb\os\os0file.cc and at line 2047
+2017-10-03 10:30:47 13948 [ERROR] InnoDB: File C:\xampp\htdocs\webshop\data\ibdata1: 'create' returned OS error 203. Cannot continue operation
+171003 10:30:47 [ERROR] mysqld got exception 0x80000003 ;
+This could be because you hit a bug. It is also possible that this binary
+or one of the libraries it was linked against is corrupt, improperly built,
+or misconfigured. This error can also be caused by malfunctioning hardware.
+
+To report this bug, see https://mariadb.com/kb/en/reporting-bugs
+
+We will try our best to scrape up some info that will hopefully help
+diagnose the problem, but since we have already crashed, 
+something is definitely wrong and this may fail.
+
+Server version: 10.1.26-MariaDB
+key_buffer_size=16777216
+read_buffer_size=262144
+max_used_connections=0
+max_threads=1001
+thread_count=0
+It is possible that mysqld could use up to 
+key_buffer_size + (read_buffer_size + sort_buffer_size)*max_threads = 787113 K  bytes of memory
+Hope that's ok; if not, decrease some variables in the equation.
+
+Thread pointer: 0x0
+Attempting backtrace. You can use the following information to find out
+where mysqld died. If you see no messages after this, something went
+terribly wrong...
+mysqld.exe!my_parameter_handler()
+mysqld.exe!strxnmov()
+mysqld.exe!?compare_ulonglong@@YAHPB_K0@Z()
+mysqld.exe!?compare_ulonglong@@YAHPB_K0@Z()
+mysqld.exe!?copy_or_same@Item@@UAEPAV1@PAVTHD@@@Z()
+mysqld.exe!?copy_or_same@Item@@UAEPAV1@PAVTHD@@@Z()
+mysqld.exe!?copy_or_same@Item@@UAEPAV1@PAVTHD@@@Z()
+mysqld.exe!?fix_length_and_dec@subselect_hash_sj_engine@@UAEXPAPAVItem_cache@@@Z()
+mysqld.exe!?ha_initialize_handlerton@@YAHPAUst_plugin_int@@@Z()
+mysqld.exe!?plugin_init@@YAHPAHPAPADH@Z()
+mysqld.exe!?plugin_init@@YAHPAHPAPADH@Z()
+mysqld.exe!?init_net_server_extension@@YAXPAVTHD@@@Z()
+mysqld.exe!?win_main@@YAHHPAPAD@Z()
+mysqld.exe!?mysql_service@@YAHPAX@Z()
+mysqld.exe!strxnmov()
+KERNEL32.DLL!BaseThreadInitThunk()
+ntdll.dll!RtlGetAppContainerNamedObjectPath()
+ntdll.dll!RtlGetAppContainerNamedObjectPath()
+The manual page at http://dev.mysql.com/doc/mysql/en/crashing.html contains
+information that should help you find out what is causing the crash.
+2017-10-03 10:31:04 a68 InnoDB: Warning: Using innodb_additional_mem_pool_size is DEPRECATED. This option may be removed in future releases, together with the option innodb_use_sys_malloc and with the InnoDB's internal memory allocator.
+2017-10-03 10:31:04 2664 [Note] InnoDB: innodb_empty_free_list_algorithm has been changed to legacy because of small buffer pool size. In order to use backoff, increase buffer pool at least up to 20MB.
+
+2017-10-03 10:31:04 2664 [Note] InnoDB: Using mutexes to ref count buffer pool pages
+2017-10-03 10:31:04 2664 [Note] InnoDB: The InnoDB memory heap is disabled
+2017-10-03 10:31:04 2664 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2017-10-03 10:31:04 2664 [Note] InnoDB: _mm_lfence() and _mm_sfence() are used for memory barrier
+2017-10-03 10:31:04 2664 [Note] InnoDB: Compressed tables use zlib 1.2.3
+2017-10-03 10:31:04 2664 [Note] InnoDB: Using generic crc32 instructions
+2017-10-03 10:31:04 2664 [Note] InnoDB: Initializing buffer pool, size = 16.0M
+2017-10-03 10:31:04 2664 [Note] InnoDB: Completed initialization of buffer pool
+2017-10-03 10:31:04 a68  InnoDB: Operating system error number 3 in a file operation.
+InnoDB: The error means the system cannot find the path specified.
+InnoDB: If you are installing InnoDB, remember that you must create
+InnoDB: directories yourself, InnoDB does not create them.
+ InnoDB: Operation create to file D:\win32-packages\build\src\storage\xtradb\os\os0file.cc and at line 2047
+2017-10-03 10:31:04 2664 [ERROR] InnoDB: File C:\xampp\htdocs\webshop\data\ibdata1: 'create' returned OS error 203. Cannot continue operation
+171003 10:31:04 [ERROR] mysqld got exception 0x80000003 ;
+This could be because you hit a bug. It is also possible that this binary
+or one of the libraries it was linked against is corrupt, improperly built,
+or misconfigured. This error can also be caused by malfunctioning hardware.
+
+To report this bug, see https://mariadb.com/kb/en/reporting-bugs
+
+We will try our best to scrape up some info that will hopefully help
+diagnose the problem, but since we have already crashed, 
+something is definitely wrong and this may fail.
+
+Server version: 10.1.26-MariaDB
+key_buffer_size=16777216
+read_buffer_size=262144
+max_used_connections=0
+max_threads=1001
+thread_count=0
+It is possible that mysqld could use up to 
+key_buffer_size + (read_buffer_size + sort_buffer_size)*max_threads = 787113 K  bytes of memory
+Hope that's ok; if not, decrease some variables in the equation.
+
+Thread pointer: 0x0
+Attempting backtrace. You can use the following information to find out
+where mysqld died. If you see no messages after this, something went
+terribly wrong...
+mysqld.exe!my_parameter_handler()
+mysqld.exe!strxnmov()
+mysqld.exe!?compare_ulonglong@@YAHPB_K0@Z()
+mysqld.exe!?compare_ulonglong@@YAHPB_K0@Z()
+mysqld.exe!?copy_or_same@Item@@UAEPAV1@PAVTHD@@@Z()
+mysqld.exe!?copy_or_same@Item@@UAEPAV1@PAVTHD@@@Z()
+mysqld.exe!?copy_or_same@Item@@UAEPAV1@PAVTHD@@@Z()
+mysqld.exe!?fix_length_and_dec@subselect_hash_sj_engine@@UAEXPAPAVItem_cache@@@Z()
+mysqld.exe!?ha_initialize_handlerton@@YAHPAUst_plugin_int@@@Z()
+mysqld.exe!?plugin_init@@YAHPAHPAPADH@Z()
+mysqld.exe!?plugin_init@@YAHPAHPAPADH@Z()
+mysqld.exe!?init_net_server_extension@@YAXPAVTHD@@@Z()
+mysqld.exe!?win_main@@YAHHPAPAD@Z()
+mysqld.exe!?mysql_service@@YAHPAX@Z()
+mysqld.exe!strxnmov()
+KERNEL32.DLL!BaseThreadInitThunk()
+ntdll.dll!RtlGetAppContainerNamedObjectPath()
+ntdll.dll!RtlGetAppContainerNamedObjectPath()
+The manual page at http://dev.mysql.com/doc/mysql/en/crashing.html contains
+information that should help you find out what is causing the crash.
