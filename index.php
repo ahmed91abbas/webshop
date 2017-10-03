@@ -1,4 +1,6 @@
-<?php session_start(); ?>
+<?php session_start(); 
+ini_set("session.gc_maxlifetime", 3600);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,11 +21,18 @@ Webshop Deluxe
 
 <article>
 <?php
-$page = 'start';
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 3600)) {
+    include('pages/logout.php');
+}
+$_SESSION['LAST_ACTIVITY'] = time();
+
+$secure = TRUE;
+
+$page = 'home';
 if(isset($_GET['page'])){
 	$page = $_GET['page'];
 }
-$secure = TRUE;
+
 switch($page){
 	case 'home': include('pages/home.php');
 	break;
@@ -32,6 +41,9 @@ switch($page){
 	break;
 	
 	case 'login': include('pages/login.php');
+	break;
+	
+	case 'logout': include('pages/logout.php');
 	break;
 	
 	case 'register': include('pages/register.php');
