@@ -7,7 +7,7 @@ ini_set("session.gc_maxlifetime", 3600);
 <head>
 <meta charset="utf-8" />
 <title>Webshop</title>
-<link href="pages/stilmall.css" rel="stylesheet" type="text/css"/>
+<link href="stilmall.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body>
