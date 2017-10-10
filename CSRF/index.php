@@ -18,5 +18,5 @@ input[type=submit] {
 <input type="hidden" name="DuckDuck" value="666"/>
 <input type="hidden" name="Duck" value="666"/>
 <input type="hidden" name="Id" value="666"/>
-<input type="submit" value="Click hear to win iPhone 8!!!"/>
+<input type="submit" value="Click here to win iPhone 8!!!"/>
 </form>
