@@ -58,36 +58,39 @@ tr:nth-child(even) {
 			echo "<td>".$Description."</td>";
 			echo "<td>".$Price."</td>";
 			echo "<td><form method=\"POST\">";
-			echo "<input type= text name='".$Name.$Name."' size=3 value='1'/>";
+			echo "<input type= text name='".$Name."' size=3 value='1'/>";
+			echo "<input type=\"hidden\" name=\"Id\" value='".session_id()."'/>";
 			echo "   ";
-			echo "<input type=\"submit\" value=\"Add to cart\" name=\"".$Name."\"/></form></td></td></tr>";
+			echo "<input type=\"submit\" value=\"Add to cart\" name=\"Button\"/></form></td></td></tr>";
 			if(isset($_POST[$Name])){
 				if (isset($_SESSION['login'])) {
-					$username = "$_SESSION[username]";
-					$quantity = $_POST[$Name.$Name];
-					if (is_numeric($quantity)) {
-					    $stmt = $db->prepare("SELECT * FROM shopping_cart WHERE User = ? AND Product = ? LIMIT 1");
-					    $stmt->execute(array($username,$Name));
-					    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-						$current_quantity = 0;
-						
-						if(!empty($row)){
-							$current_quantity = $row['Quantity'];
-							$update = $db->prepare("UPDATE shopping_cart SET Quantity = ? WHERE User = ? AND Product = ?");
-							$succ = $update->execute(array($current_quantity + $quantity,$username,$Name));
-						}else{
-						    $insert = $db->prepare("INSERT INTO shopping_cart(Product,Price,User,Quantity) VALUES(?, ?, ?, ?)");
-						    $succ = $insert->execute(array($Name,$Price,$username,$quantity));
-						}
-	
-						if($succ){
-							echo "$Name has been added to your cart";
-						}else{
-							echo "Error";
-						}
-					} else {
-						echo "Quantity must be a number!";
-					}
+				    if($_POST['Id']===session_id() || $secure == false){
+    					$username = $_SESSION['username'];
+    					$quantity = $_POST[$Name];
+    					if (is_numeric($quantity)) {
+    					    $stmt = $db->prepare("SELECT * FROM shopping_cart WHERE User = ? AND Product = ? LIMIT 1");
+    					    $stmt->execute(array($username,$Name));
+    					    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    						$current_quantity = 0;
+    						
+    						if(!empty($row)){
+    							$current_quantity = $row['Quantity'];
+    							$update = $db->prepare("UPDATE shopping_cart SET Quantity = ? WHERE User = ? AND Product = ?");
+    							$succ = $update->execute(array($current_quantity + $quantity,$username,$Name));
+    						}else{
+    						    $insert = $db->prepare("INSERT INTO shopping_cart(Product,Price,User,Quantity) VALUES(?, ?, ?, ?)");
+    						    $succ = $insert->execute(array($Name,$Price,$username,$quantity));
+    						}
+    	
+    						if($succ){
+    							echo "$Name has been added to your cart";
+    						}else{
+    							echo "Error";
+    						}
+    					} else {
+    						echo "Quantity must be a number!";
+    					}
+    				}
 				}else {
 					echo "You need to sign in in order to add new products to your cart!";
 				}

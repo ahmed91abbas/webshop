@@ -1,12 +1,14 @@
-<div>
 <style>
 table {
     border-collapse: collapse;
     border: 1px solid black;
 	style: text-align:center;
+	background-color: #fff;
 }
 </style>
-	<table bgcolor="#fff">
+<div>
+
+	<table>
 		<?php
 		require 'connect.php';
 		if($result = $db->query("SELECT * FROM shopping_cart")){

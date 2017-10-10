@@ -26,7 +26,7 @@ if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 
 }
 $_SESSION['LAST_ACTIVITY'] = time();
 
-$secure = False;
+$secure = true;
 
 $page = 'home';
 if(isset($_GET['page'])){
@@ -52,7 +52,13 @@ switch($page){
 	case 'shoppingcart': include('pages/shoppingcart.php');
 	break;
 	
-	case 'receipt': include('pages/receipt.php');
+	case 'receipt':
+	    if(isset($_SESSION['paid'])){
+	       if($_SESSION['paid'] == true){
+	           $_SESSION['paid'] = false;
+	           include('pages/receipt.php');
+	       }
+	    }
 	break;
 	
 	case 'feedback': include('pages/feedback.php');
