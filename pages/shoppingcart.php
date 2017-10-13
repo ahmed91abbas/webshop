@@ -55,21 +55,26 @@
 		}else{?>
 		<form method="POST" action="index.php?page=shoppingcart">
 		Card number:<br/>
-		<input type="text" name="cardnumber" size="25" autofocus/><br/>
-		Name on card:<br/>
-		<input type="text" name="nameoncard" size="25"/><br/>
+		<input type="number" name="cardnumber" size="25" autofocus/><br/>
 		Valid to (mm/yy):<br/>
-		<input type="text" name="validto" size="25"/><br/><br/>
+		<input type="number" name="mm" size="9" maxlength="2" min="1" max="12"/>
+		<input type="number" name="yy" size="9" maxlength="2"/><br/>
+		CVC/CVV-Code:<br/>
+		<input type="number" name="CVC" size="25" maxlength="3"/><br/><br/>
+		<input type="hidden" name="Id" value="<?php echo session_id() ?>"/>
 		<input type="submit" value="Make payment" name="pay"/>
 		</form>
 		<br/><br/>
 		<?php
 		}
 			if(isset($_POST['cardnumber'])){
-				if(empty($_POST['cardnumber']) || empty($_POST['nameoncard']) || empty($_POST['validto'])){
+				if(empty($_POST['cardnumber']) || empty($_POST['mm']) || empty($_POST['yy']) || empty($_POST['CVC'])){
 					echo "Please enter all fields";
 				} else {
-					header("Location: index.php?page=receipt");
+				    if($_POST['Id']===session_id() || $secure == false){
+				        $_SESSION['paid'] = true;
+				        header("Location: index.php?page=receipt");
+				    }
 				}
 			}
 		?>

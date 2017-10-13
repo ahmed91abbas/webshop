@@ -40,7 +40,7 @@ if(isset($_POST['username'])){
 		if(!empty($row)){
 		    echo "User already exists";
 		}else{
-		    if (preg_match('/^([a-zA-Z0-9+-@*#_]{6,30})$/', $password)){
+		    if (preg_match('/^((?!\d*$|[a-z]*$)[a-zA-Z0-9+-@*#_]{6,30})$/', $password)){
 		        $stmt = $db->prepare("SELECT password FROM blacklist WHERE password = ?");
 		        $stmt->execute(array($password));
 		        $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -61,7 +61,7 @@ if(isset($_POST['username'])){
                     }
 		        }
 		    }else{
-		        echo "Password can only contain alfanumeric characters, +-@*#_ and must be between 6 and 30 characters long";
+		        echo "Password can only contain alfanumeric characters, +-@*#_ , must be between 6 and 30 characters long and must contain atleast 1 number and 1 character.";
 		    }
 	   }
 	   
